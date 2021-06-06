@@ -105,12 +105,12 @@ fi
 if $isDnfSupported; then
   rpm --import https://packagecloud.io/AtomEditor/atom/gpgkey
   sh -c 'echo -e "[Atom]\nname=Atom Editor\nbaseurl=https://packagecloud.io/AtomEditor/atom/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://packagecloud.io/AtomEditor/atom/gpgkey" > /etc/yum.repos.d/atom.repo'
-  dnf install atom
+  dnf install atom -y
 elif $isAptSupported; then
   wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | apt-key add -
   sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
   apt update
-  apt install atom
+  apt install atom -y
 fi
 
 apm install autocomplete-paths
