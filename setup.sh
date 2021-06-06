@@ -65,16 +65,16 @@ installIfMissing() {
 # update packages
 updatePkgs
 
+# vim
+installIfMissing vim
+
 # git
 installIfMissing git git-all
 
 git config --global user.name metalex9
 git config --global user.email alexbainter@gmail.com
 git config --global alias.s status
-
-# vim
-installIfMissing vim
-# edit bashrc and set EDITOR and VISUAL to vim
+git config --global core.editor vim
 
 # ssh-key
 if [[ ! -e ~/.ssh/id_ed25519.pub ]]; then
