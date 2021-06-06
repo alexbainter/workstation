@@ -2,11 +2,6 @@
 
 {
 
-if [ "$EUID" -ne 0 ]; then
-  echo "Elevated privileges required; please run as root."
-  exit
-fi
-
 # utils
 getExecPath() {
   execPath=$(command -v "$1")
@@ -27,9 +22,9 @@ fi
 
 updatePkgs() {
   if $isDnfSupported; then
-    dnf upgrade -y
+    sudo dnf upgrade -y
   elif $isAptSupported; then
-    apt update && apt upgrade -y && apt autoremove -y
+    sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
   else
     echo "Unable to update packages: no package manager found"
   fi
@@ -38,9 +33,9 @@ updatePkgs() {
 installPkg() {
   pkgName=$1
   if $isDnfSupported; then
-    dnf install $pkgName
+    sudo dnf install $pkgName
   elif $isAptSupported; then
-    apt install $pkgName
+    sudo apt install $pkgName
   else
     echo "Unable to install $pkgName: no package manager found"
   fi
@@ -103,14 +98,14 @@ fi
 
 # Atom
 if $isDnfSupported; then
-  rpm --import https://packagecloud.io/AtomEditor/atom/gpgkey
-  sh -c 'echo -e "[Atom]\nname=Atom Editor\nbaseurl=https://packagecloud.io/AtomEditor/atom/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://packagecloud.io/AtomEditor/atom/gpgkey" > /etc/yum.repos.d/atom.repo'
-  dnf install atom -y
+  sudo rpm --import https://packagecloud.io/AtomEditor/atom/gpgkey
+  sudo sh -c 'echo -e "[Atom]\nname=Atom Editor\nbaseurl=https://packagecloud.io/AtomEditor/atom/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://packagecloud.io/AtomEditor/atom/gpgkey" > /etc/yum.repos.d/atom.repo'
+  sudo dnf install atom -y
 elif $isAptSupported; then
-  wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | apt-key add -
-  sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
-  apt update
-  apt install atom -y
+  wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
+  sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+  sudo apt update
+  sudo apt install atom -y
 fi
 
 apm install autocomplete-paths
