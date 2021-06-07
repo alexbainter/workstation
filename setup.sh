@@ -33,9 +33,9 @@ updatePkgs() {
 installPkg() {
   pkgName=$1
   if $isDnfSupported; then
-    sudo dnf install $pkgName
+    sudo dnf install $pkgName -y
   elif $isAptSupported; then
-    sudo apt install $pkgName
+    sudo apt install $pkgName -y
   else
     echo "Unable to install $pkgName: no package manager found"
   fi
@@ -91,9 +91,9 @@ nvm install --lts
 
 # Google Chrome
 if $isDnfSupported; then
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm && dnf install ./google-chrome-stable_current_x86_64.rpm && rm -f ./google-chrome-stable_current_x86_64.rpm
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm && sudo dnf install ./google-chrome-stable_current_x86_64.rpm && rm -f ./google-chrome-stable_current_x86_64.rpm
 elif $isAptSupported; then
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt install ./google-chrome-stable_current_amd64.deb && rm -f ./google-chrome-stable_current_amd64.deb
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && sudo apt install ./google-chrome-stable_current_amd64.deb && rm -f ./google-chrome-stable_current_amd64.deb
 fi
 
 # Atom
