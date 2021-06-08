@@ -124,4 +124,6 @@ apm install prettier-atom
 apm link ~/.workstation/atom/custom-syntax
 apm link ~/.workstation/atom/custom-ui
 
+cp ~/.workstation/atom/config.cson ~/.atom/config.cson
+
 }
