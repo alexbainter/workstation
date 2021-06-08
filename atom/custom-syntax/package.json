@@ -1,8 +1,8 @@
 {
-  "name": "one-light-color-syntax",
+  "name": "custom-syntax",
   "theme": "syntax",
   "version": "1.8.4",
-  "description": "Atom One light syntax theme",
+  "description": "My custom syntax theme",
   "keywords": [
     "light",
     "syntax"

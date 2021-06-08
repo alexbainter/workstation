@@ -1,8 +1,8 @@
 {
-  "name": "one-light-color-ui",
+  "name": "custom-ui",
   "theme": "ui",
   "version": "1.12.5",
-  "description": "Atom One light UI theme",
+  "description": "My custom UI theme",
   "keywords": [
     "light",
     "adaptive",
