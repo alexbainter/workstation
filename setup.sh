@@ -72,7 +72,7 @@ git config --global alias.s status
 git config --global core.editor vim
 
 git clone https://github.com/metalex9/workstation.git ~/.workstation
-git -C ~/.workstation pull
+git -C ~/.workstation pull -f
 
 # ssh-key
 if [[ ! -e ~/.ssh/id_ed25519.pub ]]; then
