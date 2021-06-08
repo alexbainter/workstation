@@ -71,6 +71,9 @@ git config --global user.email alexbainter@gmail.com
 git config --global alias.s status
 git config --global core.editor vim
 
+git clone https://github.com/metalex9/workstation.git ~/.workstation
+git -C ~/.workstation pull
+
 # ssh-key
 if [[ ! -e ~/.ssh/id_ed25519.pub ]]; then
   ssh-keygen -t ed25519 -C "alexbainter@gmail.com" -f ~/.ssh/id_ed25519 -N ''
@@ -110,12 +113,15 @@ fi
 
 apm install autocomplete-paths
 apm install busy-signal
+apm install file-icons
 apm install intentions
 apm install language-docker
 apm install linter
 apm install linter-eslint
 apm install linter-ui-default
 apm install prettier-atom
-apm install seti-icons
+
+apm link ~/.workstation/atom/custom-syntax
+apm link ~/.workstation/atom/custom-ui
 
 }
