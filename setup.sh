@@ -96,10 +96,25 @@ nvm install --lts
 
 # Google Chrome
 if $isDnfSupported; then
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm && sudo dnf install ./google-chrome-stable_current_x86_64.rpm && rm -f ./google-chrome-stable_current_x86_64.rpm
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm && sudo dnf -y install ./google-chrome-stable_current_x86_64.rpm && rm -f ./google-chrome-stable_current_x86_64.rpm
 elif $isAptSupported; then
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && sudo apt install ./google-chrome-stable_current_amd64.deb && rm -f ./google-chrome-stable_current_amd64.deb
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && sudo apt -y install ./google-chrome-stable_current_amd64.deb && rm -f ./google-chrome-stable_current_amd64.deb
 fi
+
+# Docker
+sudo dnf -y install dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf -y install docker-ce docker-ce-cli containerd.io
+sudo systemctl start docker
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+
+# Docker Compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 
 # Atom
 if $isDnfSupported; then
