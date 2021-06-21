@@ -63,18 +63,16 @@ updatePkgs
 # vim
 installIfMissing vim
 
+# neovim
+installIfMissing nvim neovim
+
 # git
 installIfMissing git git-all
 
 git config --global user.name metalex9
 git config --global user.email alexbainter@gmail.com
 git config --global alias.s status
-git config --global core.editor vim
-
-git clone https://github.com/metalex9/workstation.git ~/.workstation
-git -C ~/.workstation fetch
-git -C ~/.workstation reset --hard
-git -C ~/.workstation pull
+git config --global core.editor nvim
 
 # ssh-key
 if [[ ! -e ~/.ssh/id_ed25519.pub ]]; then
@@ -107,11 +105,11 @@ if $isDnfSupported; then
   sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
   sudo dnf -y install docker-ce docker-ce-cli containerd.io
 elif $isAptSupported; then
-  sudo apt-get install apt-transport-https ca-certificates gnupg lsb-release
+  sudo apt -y install apt-transport-https ca-certificates gnupg lsb-release
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo apt-get update
-  sudo apt-get install docker-ce docker-ce-cli containerd.io
+  sudo apt -y update
+  sudo apt -y install docker-ce docker-ce-cli containerd.io
 fi
 
 if $isDnfSupported || $isAptSupported; then
@@ -127,31 +125,18 @@ if $isDnfSupported || $isAptSupported; then
   sudo curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 fi
 
-# Atom
+# VSCode
 if $isDnfSupported; then
-  sudo rpm --import https://packagecloud.io/AtomEditor/atom/gpgkey
-  sudo sh -c 'echo -e "[Atom]\nname=Atom Editor\nbaseurl=https://packagecloud.io/AtomEditor/atom/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://packagecloud.io/AtomEditor/atom/gpgkey" > /etc/yum.repos.d/atom.repo'
-  sudo dnf install atom -y
+  sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+  sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+  sudo dnf check-update
+  sudo dnf -y install code
 elif $isAptSupported; then
-  wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
-  sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+  sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  rm -f packages.microsoft.gpg
+  sudo apt -y install apt-transport-https
   sudo apt update
-  sudo apt install atom -y
-fi
-
-apm install autocomplete-paths
-apm install busy-signal
-apm install file-icons
-apm install intentions
-apm install language-docker
-apm install linter
-apm install linter-eslint
-apm install linter-ui-default
-apm install prettier-atom
-
-apm link ~/.workstation/atom/custom-syntax
-apm link ~/.workstation/atom/custom-ui
-
-cp ~/.workstation/atom/config.cson ~/.atom/config.cson
-
+  sudo apt -y install code
 }
