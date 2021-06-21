@@ -139,4 +139,7 @@ elif $isAptSupported; then
   sudo apt -y install apt-transport-https
   sudo apt update
   sudo apt -y install code
+fi
+
+mkdir -p ~/source
 }
