@@ -107,7 +107,7 @@ if $isDnfSupported; then
   sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
   sudo dnf -y install docker-ce docker-ce-cli containerd.io
 elif $isAptSupported; then
-  declare -A codenameMap=( ["Odin"]="focal" )
+  declare -A codenameMap=( ["odin"]="focal" )
   sudo apt -y install lsb-release
   lsbCodename=$(lsb_release -cs)
   mappedCodename="${codenameMap[$lsbCodename]}"
