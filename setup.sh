@@ -107,9 +107,16 @@ if $isDnfSupported; then
   sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
   sudo dnf -y install docker-ce docker-ce-cli containerd.io
 elif $isAptSupported; then
-  sudo apt -y install apt-transport-https ca-certificates gnupg lsb-release
+  declare -A codenameMap =( ["Odin"]="focal" )
+  sudo apt -y install lsb-release
+  lsbCodename=$(lsb_release -cs)
+  mappedCodename="${codenameMap[$lsbCodename]}"
+  if [[ -n $mappedCodename ]]; then
+    lsbCodename=mappedCodename
+  fi
+  sudo apt -y install apt-transport-https ca-certificates gnupg
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $lsbCodename stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt -y update
   sudo apt -y install docker-ce docker-ce-cli containerd.io
 fi
