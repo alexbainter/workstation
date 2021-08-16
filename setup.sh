@@ -112,7 +112,7 @@ elif $isAptSupported; then
   lsbCodename=$(lsb_release -cs)
   mappedCodename="${codenameMap[$lsbCodename]}"
   if [[ -n $mappedCodename ]]; then
-    lsbCodename=mappedCodename
+    lsbCodename=$mappedCodename
   fi
   sudo apt -y install apt-transport-https ca-certificates gnupg
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
